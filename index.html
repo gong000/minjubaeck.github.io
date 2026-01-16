@@ -1,385 +1,173 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minju | Interactive CV</title>
+    <title>Minju Baeck | Interactive CV</title>
     <style>
-        /* 기본 스타일 초기화 */
+        /* 기본 스타일 및 가로 슬라이드 레이아웃 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { 
-            height: 100%; 
-            overflow: hidden; /* 세로 스크롤 방지 */
-            font-family: 'Pretendard', sans-serif;
-            background-color: #fcfcfc;
-        }
+        body, html { height: 100%; overflow: hidden; font-family: 'Pretendard', sans-serif; background-color: #fcfcfc; }
+        
+        nav { position: fixed; top: 30px; right: 50px; z-index: 1000; display: flex; gap: 30px; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 1rem; text-transform: uppercase; transition: color 0.3s; cursor: pointer; }
+        nav a:hover { color: #2563eb; }
 
-        /* 상단 고정 메뉴 */
-        nav {
-            position: fixed;
-            top: 30px;
-            right: 50px;
-            z-index: 1000;
-            display: flex;
-            gap: 30px;
-        }
-        nav a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-        nav a:hover { color: #ff6b6b; }
+        .main-container { display: flex; width: 400vw; height: 100vh; transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
 
-        /* 가로 컨테이너 */
-        .main-container {
-            display: flex;
-            width: 400vw; /* 섹션이 4개이므로 400% */
-            height: 100vh;
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* 부드러운 이동 */
-        }
+        section { width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 100px; position: relative; }
+        h2.section-bg-title { font-size: 5rem; margin-bottom: 20px; color: #eee; position: absolute; top: 100px; left: 100px; z-index: 0; }
+        .content { max-width: 900px; z-index: 1; width: 100%; }
 
-        /* 공통 섹션 스타일 */
-        section {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 100px;
-            position: relative;
-        }
+        /* Publication & Awards 스타일 */
+        .publication-container { text-align: left; overflow-y: auto; max-height: 80vh; padding-right: 20px; }
+        .section-title { font-size: 1.8rem; color: #222; margin-bottom: 25px; border-bottom: 2px solid #333; display: inline-block; }
+        .pub-list { display: flex; flex-direction: column; gap: 20px; }
+        .pub-item { display: flex; gap: 20px; padding: 15px; border-radius: 8px; transition: background 0.3s; border-left: 4px solid transparent; }
+        .pub-item:hover { background: #f0f4ff; }
+        .award-highlight { border-left: 4px solid #ffcc00; background: #fffdf0; }
+        .pub-year { font-weight: 800; color: #2563eb; min-width: 60px; }
+        .pub-title a { text-decoration: none; color: #111; font-size: 1.1rem; font-weight: bold; }
+        .pub-title a:hover { color: #2563eb; }
+        .pub-authors { font-size: 0.95rem; color: #444; margin: 5px 0; }
+        .pub-venue { font-size: 0.9rem; color: #666; font-style: italic; }
+        .pub-links { margin-top: 10px; display: flex; gap: 10px; align-items: center; }
+        .doi-link { padding: 3px 12px; border: 1px solid #2563eb; color: #2563eb; text-decoration: none; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        .doi-link:hover { background: #2563eb; color: white; }
+        .award-tag { background: #ffcc00; color: #443300; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
 
-        h2 { font-size: 5rem; margin-bottom: 20px; color: #eee; position: absolute; top: 100px; left: 100px; }
-        .content { max-width: 800px; z-index: 1; }
+        /* Video Gallery 스타일 */
+        .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .video-card { background: #fff; border-radius: 12px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .video-card:hover { transform: translateY(-5px); }
+        .thumbnail { width: 100%; height: 150px; background: #2563eb; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; text-align: center; padding: 10px; }
+        .card-info { padding: 15px; }
 
-        /* 섹션별 배경색 또는 포인트 */
-        #about { background-color: #ffffff; }
-        #research { background-color: #f9f9f9; }
-        #skills { background-color: #ffffff; }
-        #contact { background-color: #fff0f0; }
-
-        /* 하단 장식용 연도 표시 */
-        .year-tag {
-            position: absolute;
-            bottom: 40px;
-            left: 50px;
-            font-weight: bold;
-            color: #ccc;
-        }
-
-        /* Publication 스타일 */
-.publication-container {
-    max-width: 900px !important;
-    text-align: left;
-    overflow-y: auto; /* 내용이 많을 경우 내부 스크롤 */
-    max-height: 80vh;
-}
-
-.section-title {
-    font-size: 1.8rem;
-    color: #222;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #333;
-    display: inline-block;
-}
-
-.pub-list { display: flex; flex-direction: column; gap: 20px; }
-
-.pub-item {
-    display: flex;
-    gap: 30px;
-    padding: 15px;
-    border-radius: 8px;
-    transition: background 0.3s;
-}
-
-.pub-item:hover { background: #f0f4ff; }
-
-.pub-year {
-    font-weight: 800;
-    color: #2563eb;
-    font-size: 1.1rem;
-    min-width: 50px;
-}
-
-.pub-title { font-size: 1.15rem; color: #111; margin-bottom: 5px; }
-.pub-authors { font-size: 0.95rem; color: #444; }
-.pub-venue { font-size: 0.9rem; color: #666; font-style: italic; }
-
-.award-highlight {
-    border-left: 4px solid #ffcc00;
-    background: #fffdf0;
-}
-
-.award-tag {
-    display: inline-block;
-    margin-top: 8px;
-    background: #ffcc00;
-    color: #443300;
-    padding: 2px 10px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-
-.awards-list {
-    list-style: none;
-    padding-left: 0;
-}
-
-.awards-list li {
-    margin-bottom: 10px;
-    padding-left: 20px;
-    position: relative;
-}
-
-.awards-list li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    color: #2563eb;
-    font-weight: bold;
-}
-        /* 갤러리 그리드 레이아웃 */
-.video-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    width: 100%;
-}
-
-.video-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    transition: transform 0.3s;
-}
-
-.video-card:hover { transform: translateY(-10px); }
-
-.thumbnail {
-    width: 100%;
-    height: 180px;
-    background: #2563eb; /* 임시 배경색, 나중에 이미지 넣으세요 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-}
-
-.card-info { padding: 15px; text-align: left; }
-.card-info h4 { font-size: 1.1rem; color: #333; }
-.card-info p { font-size: 0.8rem; color: #777; }
-
-/* 모달 스타일 */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    justify-content: center;
-    align-items: center;
-}
-
-#modalVideo { width: 80%; max-width: 1000px; border-radius: 10px; }
-.close-btn {
-    position: absolute;
-    top: 30px; right: 50px;
-    color: white; font-size: 50px; cursor: pointer;
-}
-
-        /* 링크 스타일 */
-.pub-title a {
-    text-decoration: none;
-    color: #111;
-    transition: color 0.2s;
-}
-.pub-title a:hover { color: #2563eb; }
-
-.pub-links { margin-top: 10px; display: flex; gap: 10px; align-items: center; }
-
-.doi-link {
-    display: inline-block;
-    padding: 3px 12px;
-    border: 1px solid #2563eb;
-    color: #2563eb;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    transition: all 0.2s;
-}
-
-.doi-link:hover {
-    background: #2563eb;
-    color: white;
-}
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
+        #modalVideo { width: 80%; max-width: 1000px; border-radius: 10px; }
+        .close-btn { position: absolute; top: 30px; right: 50px; color: white; font-size: 50px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#" onclick="moveSlide(0)">About</a>
-        <a href="#" onclick="moveSlide(1)">Research</a>
-        <a href="#" onclick="moveSlide(2)">Skills</a>
-        <a href="#" onclick="moveSlide(3)">Contact</a>
+        <a onclick="moveSlide(0)">About</a>
+        <a onclick="moveSlide(1)">Research</a>
+        <a onclick="moveSlide(2)">Demos</a>
+        <a onclick="moveSlide(3)">Contact</a>
     </nav>
 
     <div class="main-container" id="master">
         <section id="about">
-            <h2>Part 01</h2>
+            <h2 class="section-bg-title">Part 01</h2>
             <div class="content">
-                <h1>김민주 (Minju Kim)</h1>
-                <p>AR/VR/MR 연구자로서 인간의 감각을 확장하는 인터랙션을 설계합니다.</p>
+                <h1>Minju Baeck</h1>
+                <p style="font-size: 1.2rem; color: #666; margin-top: 10px;">Researcher @ KAIST</p>
+                <p style="margin-top: 20px; line-height: 1.8;">
+                    Focusing on <strong>AR/VR/MR Interaction Design</strong>, Multimodal Feedback, and AI-driven content generation.
+                    Currently exploring visuo-tactile feedback and audio scene graphs to empower non-expert users in XR environments.
+                </p>
             </div>
-            <div class="year-tag">2023-2026</div>
         </section>
-<section id="research">
-    <h2>Part 02</h2>
-    <div class="content publication-container">
-        <h3 class="section-title">Selected Publications</h3>
-        
-        <div class="pub-list">
-            <div class="pub-item award-highlight">
-                <span class="pub-year">2025</span>
-                <div class="pub-detail">
-                    <h4 class="pub-title">Visuo-Tactile Feedback with Hand Outline Styles for Modulating Affective Roughness Perception</h4>
-                    <p class="pub-authors"><strong>M Baeck</strong>, Y Shin, D Kim, H Lee, SH Yoon, W Woo</p>
-                    <p class="pub-venue">IEEE Transactions on Visualization and Computer Graphics (ISMAR '25)</p>
-                    <span class="award-tag">🏆 Best Paper Nominee (ISMAR '25)</span>
-                        <a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank" class="doi-link">DOI</a>
+
+        <section id="research">
+            <h2 class="section-bg-title">Part 02</h2>
+            <div class="content publication-container">
+                <h3 class="section-title">Selected Publications</h3>
+                <div class="pub-list">
+                    <div class="pub-item award-highlight">
+                        <span class="pub-year">2025</span>
+                        <div class="pub-detail">
+                            <h4 class="pub-title"><a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank">Visuo-Tactile Feedback with Hand Outline Styles for Modulating Affective Roughness Perception</a></h4>
+                            <p class="pub-authors"><strong>M Baeck</strong>, Y Shin, D Kim, H Lee, SH Yoon, W Woo</p>
+                            <p class="pub-venue">IEEE TVCG (ISMAR '25)</p>
+                            <div class="pub-links">
+                                <span class="award-tag">🏆 Best Paper Nominee</span>
+                                <a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank" class="doi-link">DOI</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pub-item">
+                        <span class="pub-year">2025</span>
+                        <div class="pub-detail">
+                            <h4 class="pub-title">Collaborative Scene Mood Authoring with Voice-driven Multimodal Feedback Design in Virtual Reality</h4>
+                            <p class="pub-authors">J Hong, <strong>M Baeck</strong>, S Kim, Y Shin, W Woo</p>
+                            <p class="pub-venue">SIGGRAPH Asia 2025 XR</p>
+                            <div class="pub-links"><a href="#" class="doi-link">DOI</a></div>
+                        </div>
+                    </div>
+                    <div class="pub-item">
+                        <span class="pub-year">2024</span>
+                        <div class="pub-detail">
+                            <h4 class="pub-title"><a href="https://doi.org/10.1145/3652920.3652932" target="_blank">GestureMark: Smartwatch Touch Gestures for XR Glasses</a></h4>
+                            <p class="pub-authors">J Lee, <strong>M Baeck</strong>, HS Yeo, T Starner, W Woo</p>
+                            <p class="pub-venue">AH 2024</p>
+                            <div class="pub-links"><a href="https://doi.org/10.1145/3652920.3652932" target="_blank" class="doi-link">DOI</a></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="margin-top: 40px;">Honors & Awards</h3>
+                <ul style="list-style: none; line-height: 2;">
+                    <li>• <strong>Best Paper Nomination</strong>, ISMAR 2025</li>
+                    <li>• <strong>KAIST Research Scholarship</strong>, 2023 - Present</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-bg-title">Part 03</h2>
+            <div class="content">
+                <h3 class="section-title">Research Demo Session</h3>
+                <div class="video-grid">
+                    <div class="video-card" onclick="openModal('stiffness_demo.mp4')">
+                        <div class="thumbnail">XR Stiffness Control</div>
+                        <div class="card-info"><h4>Virtual Stiffness</h4><p>Pseudo-haptics in XR</p></div>
+                    </div>
+                    <div class="video-card" onclick="openModal('audio_demo.mp4')">
+                        <div class="thumbnail">AI Audio Gen</div>
+                        <div class="card-info"><h4>AudioGen Interaction</h4><p>Real-time Sound Synthesis</p></div>
+                    </div>
+                    <div class="video-card" onclick="openModal('graph_demo.mp4')">
+                        <div class="thumbnail">Scene Graph</div>
+                        <div class="card-info"><h4>Audio Scene Graph</h4><p>Context Analysis</p></div>
                     </div>
                 </div>
             </div>
-
-            <div class="pub-item">
-                <span class="pub-year">2025</span>
-                <div class="pub-detail">
-                    <h4 class="pub-title">Collaborative Scene Mood Authoring with Voice-driven Multimodal Feedback Design in Virtual Reality</h4>
-                    <p class="pub-authors">J Hong, <strong>M Baeck</strong>, S Kim, Y Shin, W Woo</p>
-                    <p class="pub-venue">SIGGRAPH Asia 2025 XR</p>
-                    <a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank" class="doi-link">DOI</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <span class="pub-year">2024</span>
-                <div class="pub-detail">
-                    <h4 class="pub-title">GestureMark: Shortcut Input Technique using Smartwatch Touch Gestures for XR Glasses</h4>
-                    <p class="pub-authors">J Lee, <strong>M Baeck</strong>, HS Yeo, T Starner, W Woo</p>
-                    <p class="pub-venue">Proceedings of the Augmented Humans International Conference 2024</p>
-                    <a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank" class="doi-link">DOI</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pub-item">
-                <span class="pub-year">2024</span>
-                <div class="pub-detail">
-                    <h4 class="pub-title">Whirling Interface: Hand-based Motion Matching Selection for Small Target on XR Displays</h4>
-                    <p class="pub-authors">J Lee, SY Oh, <strong>M Baeck</strong>, HS Yeo, HI Kim, T Starner, W Woo</p>
-                    <p class="pub-venue">2024 IEEE International Symposium on Mixed and Augmented Reality (ISMAR)</p>
-                    <a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank" class="doi-link">DOI</a>
-                </div>
-            </div>
-        </div>
-
-        <h3 class="section-title" style="margin-top: 50px;">Honors & Awards</h3>
-        <ul class="awards-list">
-            <li><strong>Best Paper Nomination</strong>, ISMAR 2025</li>
-            <li><strong>KAIST Research Scholarship</strong>, 2023 - Present</li>
-            <li><strong>National Science & Engineering Scholarship</strong>, Korea Student Aid Foundation</li>
-        </ul>
-    </div>
-</section>
-
-   
-<section id="skills">
-    <h2>Part 03</h2>
-    <div class="content gallery-container">
-        <h3>Research Demo Session</h3>
-        <p style="margin-bottom: 30px;">각 카드를 클릭하면 연구 데모 영상을 확인할 수 있습니다.</p>
-        
-        <div class="video-grid">
-            <div class="video-card" onclick="openModal('영상_링크_또는_파일명1.mp4')">
-                <div class="thumbnail">
-                    <span>XR Stiffness Control Demo</span>
-                </div>
-                <div class="card-info">
-                    <h4>XR 가상 강성 조절</h4>
-                    <p>Hand Outline Visualization</p>
-                </div>
-            </div>
-
-            <div class="video-card" onclick="openModal('영상_링크_또는_파일명2.mp4')">
-                <div class="thumbnail">
-                    <span>AI Audio Generation Demo</span>
-                </div>
-                <div class="card-info">
-                    <h4>AI 기반 상호작용 사운드</h4>
-                    <p>AudioGen & Interaction</p>
-                </div>
-            </div>
-
-            <div class="video-card" onclick="openModal('영상_링크_또는_파일명3.mp4')">
-                <div class="thumbnail">
-                    <span>Audio Scene Graph Demo</span>
-                </div>
-                <div class="card-info">
-                    <h4>오디오 씬 그래프</h4>
-                    <p>Context-aware Analysis</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div id="videoModal" class="modal" onclick="closeModal()">
-    <span class="close-btn">&times;</span>
-    <video id="modalVideo" controls autoplay onclick="event.stopPropagation()">
-        <source src="" type="video/mp4">
-        브라우저가 영상을 지원하지 않습니다.
-    </video>
-</div>
+        </section>
 
         <section id="contact">
-            <h2>Thanks</h2>
-            <div class="content">
+            <h2 class="section-bg-title">Thanks</h2>
+            <div class="content" style="text-align: center;">
                 <h1>Keep Exploring</h1>
-                <p>📧 contact@email.com</p>
+                <p style="margin-top: 20px;">📧 minjubaeck@kaist.ac.kr</p>
             </div>
         </section>
+    </div>
+
+    <div id="videoModal" class="modal" onclick="closeModal()">
+        <span class="close-btn">&times;</span>
+        <video id="modalVideo" controls autoplay onclick="event.stopPropagation()">
+            <source src="" type="video/mp4">
+        </video>
     </div>
 
     <script>
         function moveSlide(index) {
-            const container = document.getElementById('master');
-            // 가로로 이동할 거리를 계산 (0, -100vw, -200vw...)
-            container.style.transform = `translateX(-${index * 100}vw)`;
+            document.getElementById('master').style.transform = `translateX(-${index * 100}vw)`;
         }
-        function openModal(videoSrc) {
-    const modal = document.getElementById('videoModal');
-    const video = document.getElementById('modalVideo');
-    video.src = videoSrc;
-    modal.style.display = 'flex';
-}
-
-function closeModal() {
-    const modal = document.getElementById('videoModal');
-    const video = document.getElementById('modalVideo');
-    modal.style.display = 'none';
-    video.pause(); // 닫을 때 영상 정지
-}
+        function openModal(src) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            video.src = src;
+            modal.style.display = 'flex';
+        }
+        function closeModal() {
+            const modal = document.getElementById('videoModal');
+            document.getElementById('modalVideo').pause();
+            modal.style.display = 'none';
+        }
     </script>
-
 </body>
 </html>
