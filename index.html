@@ -70,6 +70,57 @@
             font-weight: bold;
             color: #ccc;
         }
+        /* 갤러리 그리드 레이아웃 */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.video-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+.video-card:hover { transform: translateY(-10px); }
+
+.thumbnail {
+    width: 100%;
+    height: 180px;
+    background: #2563eb; /* 임시 배경색, 나중에 이미지 넣으세요 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.card-info { padding: 15px; text-align: left; }
+.card-info h4 { font-size: 1.1rem; color: #333; }
+.card-info p { font-size: 0.8rem; color: #777; }
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+#modalVideo { width: 80%; max-width: 1000px; border-radius: 10px; }
+.close-btn {
+    position: absolute;
+    top: 30px; right: 50px;
+    color: white; font-size: 50px; cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -165,6 +216,19 @@
             // 가로로 이동할 거리를 계산 (0, -100vw, -200vw...)
             container.style.transform = `translateX(-${index * 100}vw)`;
         }
+        function openModal(videoSrc) {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('modalVideo');
+    video.src = videoSrc;
+    modal.style.display = 'flex';
+}
+
+function closeModal() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('modalVideo');
+    modal.style.display = 'none';
+    video.pause(); // 닫을 때 영상 정지
+}
     </script>
 
 </body>
