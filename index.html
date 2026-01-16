@@ -102,13 +102,53 @@
             </div>
         </section>
 
-        <section id="skills">
-            <h2>Part 03</h2>
-            <div class="content">
-                <h3>Technical Stack</h3>
-                <p>Unity, C#, Python, PyTorch, XR Interaction Toolkit</p>
+<section id="skills">
+    <h2>Part 03</h2>
+    <div class="content gallery-container">
+        <h3>Research Demo Session</h3>
+        <p style="margin-bottom: 30px;">각 카드를 클릭하면 연구 데모 영상을 확인할 수 있습니다.</p>
+        
+        <div class="video-grid">
+            <div class="video-card" onclick="openModal('영상_링크_또는_파일명1.mp4')">
+                <div class="thumbnail">
+                    <span>XR Stiffness Control Demo</span>
+                </div>
+                <div class="card-info">
+                    <h4>XR 가상 강성 조절</h4>
+                    <p>Hand Outline Visualization</p>
+                </div>
             </div>
-        </section>
+
+            <div class="video-card" onclick="openModal('영상_링크_또는_파일명2.mp4')">
+                <div class="thumbnail">
+                    <span>AI Audio Generation Demo</span>
+                </div>
+                <div class="card-info">
+                    <h4>AI 기반 상호작용 사운드</h4>
+                    <p>AudioGen & Interaction</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="openModal('영상_링크_또는_파일명3.mp4')">
+                <div class="thumbnail">
+                    <span>Audio Scene Graph Demo</span>
+                </div>
+                <div class="card-info">
+                    <h4>오디오 씬 그래프</h4>
+                    <p>Context-aware Analysis</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="videoModal" class="modal" onclick="closeModal()">
+    <span class="close-btn">&times;</span>
+    <video id="modalVideo" controls autoplay onclick="event.stopPropagation()">
+        <source src="" type="video/mp4">
+        브라우저가 영상을 지원하지 않습니다.
+    </video>
+</div>
 
         <section id="contact">
             <h2>Thanks</h2>
