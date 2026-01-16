@@ -3,123 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Researcher CV | Portfolio</title>
+    <title>Minju | Interactive CV</title>
     <style>
-        :root {
-            --primary-color: #2563eb;
-            --bg-color: #f8fafc;
-            --text-main: #1e293b;
-            --text-sub: #64748b;
+        /* 기본 스타일 초기화 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { 
+            height: 100%; 
+            overflow: hidden; /* 세로 스크롤 방지 */
+            font-family: 'Pretendard', sans-serif;
+            background-color: #fcfcfc;
         }
 
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--text-main);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 40px 20px;
+        /* 상단 고정 메뉴 */
+        nav {
+            position: fixed;
+            top: 30px;
+            right: 50px;
+            z-index: 1000;
+            display: flex;
+            gap: 30px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: #ff6b6b; }
+
+        /* 가로 컨테이너 */
+        .main-container {
+            display: flex;
+            width: 400vw; /* 섹션이 4개이므로 400% */
+            height: 100vh;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* 부드러운 이동 */
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 50px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
+        /* 공통 섹션 스타일 */
+        section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px;
+            position: relative;
         }
 
-        header {
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+        h2 { font-size: 5rem; margin-bottom: 20px; color: #eee; position: absolute; top: 100px; left: 100px; }
+        .content { max-width: 800px; z-index: 1; }
+
+        /* 섹션별 배경색 또는 포인트 */
+        #about { background-color: #ffffff; }
+        #research { background-color: #f9f9f9; }
+        #skills { background-color: #ffffff; }
+        #contact { background-color: #fff0f0; }
+
+        /* 하단 장식용 연도 표시 */
+        .year-tag {
+            position: absolute;
+            bottom: 40px;
+            left: 50px;
+            font-weight: bold;
+            color: #ccc;
         }
-
-        h1 { margin: 0; font-size: 2.5rem; color: var(--primary-color); }
-        .subtitle { font-size: 1.2rem; color: var(--text-sub); font-weight: 500; }
-
-        section { margin-bottom: 40px; }
-        h2 { 
-            font-size: 1.5rem; 
-            border-left: 5px solid var(--primary-color); 
-            padding-left: 15px; 
-            margin-bottom: 20px;
-        }
-
-        .item { margin-bottom: 20px; }
-        .item-title { font-weight: bold; display: flex; justify-content: space-between; }
-        .date { color: var(--text-sub); font-size: 0.9rem; }
-        
-        .skills-tag {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin: 5px 2px;
-        }
-
-        .contact-info { margin-top: 10px; font-size: 0.9rem; color: var(--text-sub); }
-        a { color: var(--primary-color); text-decoration: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>김민주 (Minju Kim)</h1>
-        <div class="subtitle">AR / VR / MR Researcher</div>
-        <div class="contact-info">
-            📍 대한민국, 대전 | 📧 email@address.com | 🔗 <a href="#">LinkedIn</a> | 💻 <a href="#">GitHub</a>
-        </div>
-    </header>
+    <nav>
+        <a href="#" onclick="moveSlide(0)">About</a>
+        <a href="#" onclick="moveSlide(1)">Research</a>
+        <a href="#" onclick="moveSlide(2)">Skills</a>
+        <a href="#" onclick="moveSlide(3)">Contact</a>
+    </nav>
 
-    <section>
-        <h2>소개 (About Me)</h2>
-        <p>인간과 가상 세계 사이의 상호작용을 더 풍부하게 만드는 기술을 연구합니다. 특히 사용자 경험을 극대화하기 위한 햅틱 피드백 조절 및 AI 기반 오디오 생성 기술에 깊은 관심을 가지고 있습니다.</p>
-    </section>
-
-    <section>
-        <h2>주요 연구 및 프로젝트 (Research & Projects)</h2>
-        <div class="item">
-            <div class="item-title">
-                <span>XR 환경 내 가상 강성 조절 연구</span>
-                <span class="date">2025.12 - 현재</span>
+    <div class="main-container" id="master">
+        <section id="about">
+            <h2>Part 01</h2>
+            <div class="content">
+                <h1>김민주 (Minju Kim)</h1>
+                <p>AR/VR/MR 연구자로서 인간의 감각을 확장하는 인터랙션을 설계합니다.</p>
             </div>
-            <p>손 외곽선 시각화를 활용하여 사용자가 느끼는 강성 및 탄성을 변조하는 연구를 진행 중입니다.</p>
-        </div>
-        <div class="item">
-            <div class="item-title">
-                <span>AI 기반 인터랙티브 사운드 생성 시스템</span>
-                <span class="date">2026.01 - 진행 중</span>
-            </div>
-            <p>AudioGen 모델을 활용하여 물체의 상태 변화에 따른 실시간 상호작용 효과음을 생성합니다.</p>
-        </div>
-    </section>
+            <div class="year-tag">2023-2026</div>
+        </section>
 
-    <section>
-        <h2>기술 스택 (Technical Skills)</h2>
-        <div>
-            <span class="skills-tag">Unity</span>
-            <span class="skills-tag">C#</span>
-            <span class="skills-tag">Python</span>
-            <span class="skills-tag">PyTorch</span>
-            <span class="skills-tag">Git</span>
-            <span class="skills-tag">Oculus SDK</span>
-        </div>
-    </section>
-
-    <section>
-        <h2>학력 (Education)</h2>
-        <div class="item">
-            <div class="item-title">
-                <span>OO대학교 컴퓨터공학부</span>
-                <span class="date">20XX.03 - 20XX.02</span>
+        <section id="research">
+            <h2>Part 02</h2>
+            <div class="content">
+                <h3>주요 연구</h3>
+                <ul>
+                    <li>XR 가상 강성 조절 연구 (TVCG 준비)</li>
+                    <li>AudioGen 기반 실시간 사운드 생성</li>
+                </ul>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+
+        <section id="skills">
+            <h2>Part 03</h2>
+            <div class="content">
+                <h3>Technical Stack</h3>
+                <p>Unity, C#, Python, PyTorch, XR Interaction Toolkit</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Thanks</h2>
+            <div class="content">
+                <h1>Keep Exploring</h1>
+                <p>📧 contact@email.com</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function moveSlide(index) {
+            const container = document.getElementById('master');
+            // 가로로 이동할 거리를 계산 (0, -100vw, -200vw...)
+            container.style.transform = `translateX(-${index * 100}vw)`;
+        }
+    </script>
 
 </body>
 </html>
