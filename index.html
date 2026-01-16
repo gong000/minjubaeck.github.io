@@ -195,6 +195,33 @@
     top: 30px; right: 50px;
     color: white; font-size: 50px; cursor: pointer;
 }
+
+        /* 링크 스타일 */
+.pub-title a {
+    text-decoration: none;
+    color: #111;
+    transition: color 0.2s;
+}
+.pub-title a:hover { color: #2563eb; }
+
+.pub-links { margin-top: 10px; display: flex; gap: 10px; align-items: center; }
+
+.doi-link {
+    display: inline-block;
+    padding: 3px 12px;
+    border: 1px solid #2563eb;
+    color: #2563eb;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.doi-link:hover {
+    background: #2563eb;
+    color: white;
+}
     </style>
 </head>
 <body>
@@ -216,7 +243,7 @@
             <div class="year-tag">2023-2026</div>
         </section>
 
-        <section id="research">
+<section id="research">
     <h2>Part 02</h2>
     <div class="content publication-container">
         <h3 class="section-title">Selected Publications</h3>
@@ -225,50 +252,62 @@
             <div class="pub-item award-highlight">
                 <span class="pub-year">2025</span>
                 <div class="pub-detail">
-                    <h4 class="pub-title">Visuo-Tactile Feedback with Hand Outline Styles for Modulating Affective Roughness Perception</h4>
+                    <h4 class="pub-title">
+                        <a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank">Visuo-Tactile Feedback with Hand Outline Styles for Modulating Affective Roughness Perception</a>
+                    </h4>
                     <p class="pub-authors"><strong>M Baeck</strong>, Y Shin, D Kim, H Lee, SH Yoon, W Woo</p>
                     <p class="pub-venue">IEEE Transactions on Visualization and Computer Graphics (ISMAR '25)</p>
-                    <span class="award-tag">🏆 Best Paper Nominee (ISMAR '25)</span>
+                    <div class="pub-links">
+                        <span class="award-tag">🏆 Best Paper Nominee</span>
+                        <a href="https://doi.org/10.1109/TVCG.2024.3456154" target="_blank" class="doi-link">DOI</a>
+                    </div>
                 </div>
             </div>
 
             <div class="pub-item">
                 <span class="pub-year">2025</span>
                 <div class="pub-detail">
-                    <h4 class="pub-title">Collaborative Scene Mood Authoring with Voice-driven Multimodal Feedback Design in Virtual Reality</h4>
+                    <h4 class="pub-title">
+                        <a href="#" target="_blank">Collaborative Scene Mood Authoring with Voice-driven Multimodal Feedback Design in Virtual Reality</a>
+                    </h4>
                     <p class="pub-authors">J Hong, <strong>M Baeck</strong>, S Kim, Y Shin, W Woo</p>
                     <p class="pub-venue">SIGGRAPH Asia 2025 XR</p>
+                    <div class="pub-links">
+                        <a href="#" target="_blank" class="doi-link">DOI</a>
+                    </div>
                 </div>
             </div>
 
             <div class="pub-item">
                 <span class="pub-year">2024</span>
                 <div class="pub-detail">
-                    <h4 class="pub-title">GestureMark: Shortcut Input Technique using Smartwatch Touch Gestures for XR Glasses</h4>
+                    <h4 class="pub-title">
+                        <a href="https://doi.org/10.1145/3652920.3652932" target="_blank">GestureMark: Shortcut Input Technique using Smartwatch Touch Gestures for XR Glasses</a>
+                    </h4>
                     <p class="pub-authors">J Lee, <strong>M Baeck</strong>, HS Yeo, T Starner, W Woo</p>
                     <p class="pub-venue">Proceedings of the Augmented Humans International Conference 2024</p>
+                    <div class="pub-links">
+                        <a href="https://doi.org/10.1145/3652920.3652932" target="_blank" class="doi-link">DOI</a>
+                    </div>
                 </div>
             </div>
 
             <div class="pub-item">
                 <span class="pub-year">2024</span>
                 <div class="pub-detail">
-                    <h4 class="pub-title">Whirling Interface: Hand-based Motion Matching Selection for Small Target on XR Displays</h4>
+                    <h4 class="pub-title">
+                        <a href="https://doi.org/10.1109/ISMAR62688.2024.00021" target="_blank">Whirling Interface: Hand-based Motion Matching Selection for Small Target on XR Displays</a>
+                    </h4>
                     <p class="pub-authors">J Lee, SY Oh, <strong>M Baeck</strong>, HS Yeo, HI Kim, T Starner, W Woo</p>
                     <p class="pub-venue">2024 IEEE International Symposium on Mixed and Augmented Reality (ISMAR)</p>
+                    <div class="pub-links">
+                        <a href="https://doi.org/10.1109/ISMAR62688.2024.00021" target="_blank" class="doi-link">DOI</a>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <h3 class="section-title" style="margin-top: 50px;">Honors & Awards</h3>
-        <ul class="awards-list">
-            <li><strong>Best Paper Nomination</strong>, ISMAR 2025</li>
-            <li><strong>KAIST Research Scholarship</strong>, 2023 - Present</li>
-            <li><strong>National Science & Engineering Scholarship</strong>, Korea Student Aid Foundation</li>
-        </ul>
-    </div>
+        </div>
 </section>
-
 <section id="skills">
     <h2>Part 03</h2>
     <div class="content gallery-container">
